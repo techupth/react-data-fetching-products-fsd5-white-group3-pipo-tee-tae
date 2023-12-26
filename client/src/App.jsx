@@ -1,6 +1,27 @@
+//1)ให้สร้าง Request ด้วย Axios เพื่อดึงข้อมูล Product จาก Server แล้วนำมา Render ที่หน้าเว็บไซต์
+
 import "./App.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [products, setProducts] = useState([]);
+
+  async function productData() {
+    const result = await axios.get(`http://localhost:4001/products`);
+    setProducts(result.data.data);
+  }
+
+  useEffect(() => {
+    productData();
+  }, [products]);
+
+  async function deleteProductData(productID) {
+    await axios.delete(`http://localhost:4001/products/$(productID)`);
+  }
+
+  deleteProductData();
+
   return (
     <div className="App">
       <div className="app-wrapper">
